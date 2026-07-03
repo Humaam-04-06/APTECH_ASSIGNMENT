@@ -1,0 +1,122 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+  <div class="modal-container glass-panel animate-scale-in" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h3>{{ product ? 'Edit Product' : 'Add New Product' }}</h3>
+      <button class="btn-close" (click)="onClose()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="close-icon">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="modal-body">
+        
+        <!-- Product Name -->
+        <div class="form-group">
+          <label class="form-label" for="productName">Product Name</label>
+          <input 
+            type="text" 
+            id="productName" 
+            formControlName="name" 
+            class="form-control" 
+            placeholder="e.g. Wireless Mouse M510"
+            [class.is-invalid]="isSubmitAttempted && productForm.get('name')?.invalid">
+          <div *ngIf="isSubmitAttempted && productForm.get('name')?.invalid" class="text-error">
+            <span *ngIf="productForm.get('name')?.errors?.['required']">Product name is required.</span>
+            <span *ngIf="productForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters.</span>
+            <span *ngIf="productForm.get('name')?.errors?.['maxlength']">Name cannot exceed 100 characters.</span>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label class="form-label" for="productCategory">Category</label>
+          <select 
+            id="productCategory" 
+            formControlName="category" 
+            class="form-control select-control"
+            [class.is-invalid]="isSubmitAttempted && productForm.get('category')?.invalid">
+            <option value="" disabled selected>Select category...</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+          <div *ngIf="isSubmitAttempted && productForm.get('category')?.invalid" class="text-error">
+            Category is required.
+          </div>
+        </div>
+
+        <!-- Row: Price and Quantity -->
+        <div class="form-row">
+          <!-- Price -->
+          <div class="form-group col-6">
+            <label class="form-label" for="productPrice">Price ($)</label>
+            <input 
+              type="number" 
+              id="productPrice" 
+              formControlName="price" 
+              class="form-control" 
+              placeholder="0.00"
+              step="0.01"
+              min="0"
+              [class.is-invalid]="isSubmitAttempted && productForm.get('price')?.invalid">
+            <div *ngIf="isSubmitAttempted && productForm.get('price')?.invalid" class="text-error">
+              <span *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</span>
+              <span *ngIf="productForm.get('price')?.errors?.['min']">Price must be 0 or greater.</span>
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-group col-6">
+            <label class="form-label" for="productQuantity">Quantity</label>
+            <input 
+              type="number" 
+              id="productQuantity" 
+              formControlName="quantity" 
+              class="form-control" 
+              placeholder="0"
+              step="1"
+              min="0"
+              [class.is-invalid]="isSubmitAttempted && productForm.get('quantity')?.invalid">
+            <div *ngIf="isSubmitAttempted && productForm.get('quantity')?.invalid" class="text-error">
+              <span *ngIf="productForm.get('quantity')?.errors?.['required']">Quantity is required.</span>
+              <span *ngIf="productForm.get('quantity')?.errors?.['min']">Quantity must be 0 or greater.</span>
+              <span *ngIf="productForm.get('quantity')?.errors?.['pattern']">Must be a whole number.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supplier -->
+        <div class="form-group">
+          <label class="form-label" for="productSupplier">Supplier</label>
+          <input 
+            type="text" 
+            id="productSupplier" 
+            formControlName="supplier" 
+            class="form-control" 
+            placeholder="e.g. Logitech Inc."
+            [class.is-invalid]="isSubmitAttempted && productForm.get('supplier')?.invalid">
+          <div *ngIf="isSubmitAttempted && productForm.get('supplier')?.invalid" class="text-error">
+            <span *ngIf="productForm.get('supplier')?.errors?.['required']">Supplier is required.</span>
+            <span *ngIf="productForm.get('supplier')?.errors?.['minlength']">Supplier name must be at least 2 characters.</span>
+            <span *ngIf="productForm.get('supplier')?.errors?.['maxlength']">Supplier name cannot exceed 100 characters.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-svg" style="width: 16px; height: 16px;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {{ product ? 'Update Product' : 'Add Product' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
