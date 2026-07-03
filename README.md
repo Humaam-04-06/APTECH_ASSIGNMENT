@@ -2,6 +2,9 @@
 
 A premium, highly responsive Single Page Application (SPA) designed to manage product inventory. Built with **Angular** (Standalone Components) and integrated with **Cloud Firebase Firestore** for real-time CRUD data persistence.
 
+Name: Syed Humaam
+Student ID: Student1632255
+
 Developed for Aptech Assignment - Batch: **2412E2** (MWF, 3:00 PM – 5:00 PM).
 
 ---
